@@ -1,0 +1,23 @@
+require('dotenv').config()
+const express = require('express')
+const app = express()
+const mongoose = require('mongoose')
+const cors = require('cors')
+
+const categoriesRoutes = require('./routes/categories')
+const productsRoutes = require('./routes/products')
+const subcategoriesRoutes = require('./routes/subcategories')
+const typesRoutes = require('./routes/types')
+const bannersRoutes = require('./routes/banners')
+
+mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+.then(result => app.listen(process.env.PORT))
+.catch(error => console.log(error))
+
+app.use(cors())
+app.use(express.json())
+app.use('/api/categories', categoriesRoutes)
+app.use('/api/subcategories', subcategoriesRoutes)
+app.use('/api/types', typesRoutes)
+app.use('/api/products', productsRoutes)
+app.use('/api/banners', bannersRoutes)
